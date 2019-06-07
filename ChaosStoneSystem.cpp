@@ -169,3 +169,5 @@ void CNpc::ChaosStoneDeath(CUser *pUser)
 		}
 	}
 }
+
+//
