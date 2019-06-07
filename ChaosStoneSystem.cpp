@@ -26,6 +26,12 @@ bool CGameServerDlg::ChaosStoneLoad()
 			pChaosInfo->sZoneID = pChaosRespawn->sZoneID;
 			pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
 			pChaosInfo->ChaosStoneON = true;
+			
+			//--GÜNCELLEME--
+			pChaosInfo->isChaosStoneKilled = false;
+			pChaosInfo->isOnResTimer = false;
+			pChaosInfo->isTotalKilledMonster = false;
+			//--GÜNCELLEME--
 
 			g_pMain->SpawnEventNpc(pChaosRespawn->sChaosID, true, (uint8)pChaosRespawn->sZoneID, pChaosRespawn->sSpawnX, 0, pChaosRespawn->sSpawnZ, pChaosRespawn->sCount, pChaosRespawn->sRadiusRange, 0, 0, -1, 0, (uint8)pChaosRespawn->sDirection);
 			printf("Chaos Stone:ID(%d),Zone(%d) ON.\n", pChaosRespawn->sChaosID, pChaosRespawn->sZoneID);
