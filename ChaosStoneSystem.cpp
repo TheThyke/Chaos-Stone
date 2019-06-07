@@ -28,6 +28,7 @@ bool CGameServerDlg::ChaosStoneLoad()
 			pChaosInfo->ChaosStoneON = true;
 			
 			//--GÜNCELLEME--
+			pChaosInfo->sMonsterFamily = 1;
 			pChaosInfo->isChaosStoneKilled = false;
 			pChaosInfo->isOnResTimer = false;
 			pChaosInfo->isTotalKilledMonster = false;
@@ -176,4 +177,7 @@ void CNpc::ChaosStoneDeath(CUser *pUser)
 	}
 }
 
-//
+uint8 CGameServerDlg::ChaosStoneSelectMonsterFamily()
+{
+
+}
