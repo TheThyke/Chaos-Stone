@@ -59,12 +59,15 @@ void CGameServerDlg::ChaosStoneRespawnTimer()
 			if (pChaosInfo->sSpawnTime > 0)
 				pChaosInfo->sSpawnTime--;
 
+			printf("Chaos Stone Timer: %d \n",pChaosInfo->sSpawnTime);
+
 			if (pChaosInfo->sSpawnTime <= 0)
 			{
 				ChaosStoneSummon(pChaosInfo->sChaosID, pChaosInfo->sRank, pChaosInfo->sZoneID);
 				pChaosInfo->isChaosStoneKilled = false;
 				pChaosInfo->isOnResTimer = false;
 				pChaosInfo->isTotalKilledMonster = false;
+				pChaosInfo->sBoosKilledCount = 0;
 			}
 		}
 	}
