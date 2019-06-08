@@ -7,40 +7,40 @@ using std::unique_ptr;
 #pragma region CGameServerDlg::ChaosStoneLoad()
 bool CGameServerDlg::ChaosStoneLoad()
 {
-	uint8 ChaosStoneResCount = 0;
-	if (g_pMain->ChaosStoneRespawnOkey && g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize() > 0)
+uint8 ChaosStoneResCount = 0;
+if (g_pMain->ChaosStoneRespawnOkey && g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize() > 0)
+{
+	for (int i = 1; i <= g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize(); i++)
 	{
-		for (int i = 1; i <= g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize(); i++)
-		{
-			_CHAOS_STONE_RESPAWN *pChaosRespawn = g_pMain->m_ChaosStoneRespawnCoordinateArray.GetData(i);
-			if (pChaosRespawn == nullptr
-				|| pChaosRespawn->sRank != 1)
-				continue;
+		_CHAOS_STONE_RESPAWN *pChaosRespawn = g_pMain->m_ChaosStoneRespawnCoordinateArray.GetData(i);
+		if (pChaosRespawn == nullptr
+			|| pChaosRespawn->sRank != 1)
+			continue;
 
-			ChaosStoneResCount++;
-			if (ChaosStoneResCount > 3)
-				return false;
+		ChaosStoneResCount++;
+		if (ChaosStoneResCount > 3)
+			return false;
 
-			_CHAOS_STONE_INFO* pChaosInfo = g_pMain->m_ChaosStoneInfoArray.GetData(ChaosStoneResCount);
-			if (pChaosInfo == nullptr)
-				return false;
+		_CHAOS_STONE_INFO* pChaosInfo = g_pMain->m_ChaosStoneInfoArray.GetData(ChaosStoneResCount);
+		if (pChaosInfo == nullptr)
+			return false;
 
-			pChaosInfo->sChaosID = pChaosRespawn->sChaosID;
-			pChaosInfo->sRank = pChaosRespawn->sRank;
-			pChaosInfo->sZoneID = pChaosRespawn->sZoneID;
-			pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
-			pChaosInfo->sMonsterFamily = 1;
-			pChaosInfo->isChaosStoneKilled = false;
-			pChaosInfo->isOnResTimer = false;
-			pChaosInfo->isTotalKilledMonster = false;
-			pChaosInfo->ChaosStoneON = true;
-			
-			g_pMain->SpawnEventNpc(pChaosRespawn->sChaosID, true, (uint8)pChaosRespawn->sZoneID, pChaosRespawn->sSpawnX, 0, pChaosRespawn->sSpawnZ, pChaosRespawn->sCount, pChaosRespawn->sRadiusRange, 0, 0, -1, 0, (uint8)pChaosRespawn->sDirection);
-			printf("Chaos Stone:ID(%d),Zone(%d) ON.\n", pChaosRespawn->sChaosID, pChaosRespawn->sZoneID);
-		}
-		g_pMain->ChaosStoneRespawnOkey = false;
+		pChaosInfo->sChaosID = pChaosRespawn->sChaosID;
+		pChaosInfo->sRank = pChaosRespawn->sRank;
+		pChaosInfo->sZoneID = pChaosRespawn->sZoneID;
+		pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
+		pChaosInfo->sMonsterFamily = 1;
+		pChaosInfo->isChaosStoneKilled = false;
+		pChaosInfo->isOnResTimer = false;
+		pChaosInfo->isTotalKilledMonster = false;
+		pChaosInfo->ChaosStoneON = true;
+
+		g_pMain->SpawnEventNpc(pChaosRespawn->sChaosID, true, (uint8)pChaosRespawn->sZoneID, pChaosRespawn->sSpawnX, 0, pChaosRespawn->sSpawnZ, pChaosRespawn->sCount, pChaosRespawn->sRadiusRange, 0, 0, -1, 0, (uint8)pChaosRespawn->sDirection);
+		printf("Chaos Stone:ID(%d),Zone(%d) ON.\n", pChaosRespawn->sChaosID, pChaosRespawn->sZoneID);
 	}
-	return true;
+	g_pMain->ChaosStoneRespawnOkey = false;
+}
+return true;
 }
 #pragma endregion
 
