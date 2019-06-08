@@ -6,6 +6,8 @@ struct _CHAOS_STONE_INFO
 	uint8  sRank;
 	uint32 sSpawnTime;
 	uint8  sMonsterFamily;
+	uint16 sBoosID[9];
+	uint8  sBoosKilledCount;
 	bool isChaosStoneKilled;
 	bool isTotalKilledMonster;
 	bool isOnResTimer;
@@ -18,16 +20,34 @@ struct _CHAOS_STONE_INFO
 
 	void Initialize()
 	{
+		memset(&sBoosID, 0, sizeof(sBoosID));
 		sChaosIndex = 0;
 		sChaosID = 0;
 		sZoneID = 0;
 		sRank = 1;
 		sSpawnTime = 30;
 		sMonsterFamily = 0;
+		sBoosKilledCount = 0;
 		isChaosStoneKilled = false;
 		isTotalKilledMonster = false;
 		isOnResTimer = false;
 		ChaosStoneON = false;
+	}
+};
+
+struct _CHAOS_STONE_BOOS_KILLED_INFO
+{
+	uint8 sNpcID[10];
+	uint8  sNpcKilled;
+
+	_CHAOS_STONE_BOOS_KILLED_INFO()
+	{
+		Initialize();
+	}
+	void Initialize()
+	{
+		memset(&sNpcID, 0, sizeof(sNpcID));
+		sNpcKilled = 0;
 	}
 };
 
