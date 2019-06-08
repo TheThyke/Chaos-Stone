@@ -4,6 +4,7 @@
 using std::string;
 using std::unique_ptr;
 
+#pragma region CGameServerDlg::ChaosStoneLoad()
 bool CGameServerDlg::ChaosStoneLoad()
 {
 	uint8 ChaosStoneResCount = 0;
@@ -41,7 +42,9 @@ bool CGameServerDlg::ChaosStoneLoad()
 	}
 	return true;
 }
+#pragma endregion
 
+#pragma region CGameServerDlg::ChaosStoneRespawnTimer()
 void CGameServerDlg::ChaosStoneRespawnTimer()
 {
 	if (g_pMain->m_ChaosStoneInfoArray.GetSize() > 0)
@@ -72,8 +75,10 @@ void CGameServerDlg::ChaosStoneRespawnTimer()
 		}
 	}
 }
+#pragma endregion
 //THETHYKE
 
+#pragma region CGameServerDlg::ChaosStoneSummonSelectStage(uint16 ChaosGetID,uint8 RankID, uint16 ZoneID)
 uint8 CGameServerDlg::ChaosStoneSummonSelectStage(uint16 ChaosGetID, uint8 RankID, uint16 ZoneID)
 {
 	for (int i = 1; i <= g_pMain->m_ChaosStoneInfoArray.GetSize(); i++)
@@ -91,7 +96,9 @@ uint8 CGameServerDlg::ChaosStoneSummonSelectStage(uint16 ChaosGetID, uint8 RankI
 
 	return 0;
 }
+#pragma endregion
 
+#pragma region CGameServerDlg::ChaosStoneSummon(uint16 ChaosGetID,uint8 RankID, uint16 ZoneID)
 void CGameServerDlg::ChaosStoneSummon(uint16 ChaosGetID,uint8 RankID, uint16 ZoneID)
 {
 	if (g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize() > 0)
@@ -115,7 +122,9 @@ void CGameServerDlg::ChaosStoneSummon(uint16 ChaosGetID,uint8 RankID, uint16 Zon
 		}
 	}
 }
+#pragma endregion
 
+#pragma region CNpc::ChaosStoneSelectStage(uint8 sRank)
 uint8 CNpc::ChaosStoneSelectStage(uint8 sRank)
 {
 	if (g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize() > 0)
@@ -136,7 +145,9 @@ uint8 CNpc::ChaosStoneSelectStage(uint8 sRank)
 
 	return 0;
 }
+#pragma endregion
 
+#pragma region CNpc::ChaosStoneDeath(CUser *pUser)
 void CNpc::ChaosStoneDeath(CUser *pUser)
 {
 	if (pUser == nullptr)
@@ -189,7 +200,9 @@ void CNpc::ChaosStoneDeath(CUser *pUser)
 		ChaosStoneDeathRespawnMonster(ChaosIndex);
 	}
 }
+#pragma endregion
 
+#pragma region CNpc::ChaosStoneDeathRespawnMonster(uint16 ChaosGetIndex)
 void CNpc::ChaosStoneDeathRespawnMonster(uint16 ChaosGetIndex)
 {
 	_CHAOS_STONE_INFO* pChaosInfo = g_pMain->m_ChaosStoneInfoArray.GetData(ChaosGetIndex);
@@ -217,24 +230,30 @@ void CNpc::ChaosStoneDeathRespawnMonster(uint16 ChaosGetIndex)
 			pChaosInfo->sMonsterFamily = Family;
 	}
 }
+#pragma endregion
 
-
+#pragma region CGameServerDlg::ChaosStoneSummonSelectFamilyStage(uint16 ChaosGetID, uint8 FamilyID, uint16 ZoneID)
 uint8 CGameServerDlg::ChaosStoneSummonSelectFamilyStage(uint16 ChaosGetID, uint8 FamilyID, uint16 ZoneID)
 {
-	foreach_stlmap(itr, m_ChaosStoneStageArray)
+	_CHAOS_STONE_INFO* pChaosInfo = g_pMain->m_ChaosStoneInfoArray.GetData(ChaosGetID);
+	if (pChaosInfo != nullptr)
 	{
-		_CHAOS_STONE_STAGE* pStageList = itr->second;
-		if (pStageList == nullptr)
-			continue;
+		foreach_stlmap(itr, m_ChaosStoneStageArray)
+		{
+			_CHAOS_STONE_STAGE* pStageList = itr->second;
+			if (pStageList == nullptr)
+				continue;
 
-		if (pStageList->ZoneID == ZoneID && pStageList->nIndexFamily == FamilyID)
-			return pStageList->nIndexFamily;
+			if (pStageList->ZoneID == ZoneID && pStageList->nIndexFamily == FamilyID)
+				return pStageList->nIndexFamily;
+		}
 	}
 
 	return 1;
 }
+#pragma endregion
 
-
+#pragma region CNpc::ChaosStoneBossKilledBy()
 void CNpc::ChaosStoneBossKilledBy()
 {
 	for (int i = 1; i <= g_pMain->m_ChaosStoneInfoArray.GetSize(); i++)
@@ -261,6 +280,7 @@ void CNpc::ChaosStoneBossKilledBy()
 		}
 	}
 }
+#pragma endregion
 
 #pragma region CDBAgent::LoadChaosStoneFamilyStage()
 bool CDBAgent::LoadChaosStoneFamilyStage()
