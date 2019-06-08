@@ -107,7 +107,7 @@ void CGameServerDlg::ChaosStoneSummon(uint16 ChaosGetID,uint8 RankID, uint16 Zon
 			if (pChaosInfo == nullptr)
 				continue;
 
-			g_pMain->SpawnEventNpc(pChaosRespawn->sChaosID, true, (uint8)pChaosRespawn->sZoneID, pChaosRespawn->sSpawnX, 0, pChaosRespawn->sSpawnZ, pChaosRespawn->sCount, pChaosRespawn->sRadiusRange, 0, 0, -1, 0, (uint8)pChaosRespawn->sDirection);
+			g_pMain->SpawnEventNpc(pChaosRespawn->sChaosID, true, (uint8)pChaosRespawn->sZoneID, pChaosRespawn->sSpawnX, 0, pChaosRespawn->sSpawnZ, pChaosRespawn->sCount, pChaosRespawn->sRadiusRange, 0, 0, -1, 0, (uint8)pChaosRespawn->sDirection,0,0,0,0);
 			pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
 		}
 	}
@@ -128,10 +128,9 @@ uint8 CNpc::ChaosStoneSelectStage(uint8 sRank)
 
 			if (pChaosRespawn->sChaosID == GetProtoID() && pChaosRespawn->sRank == sRank && pChaosRespawn->sZoneID && GetZoneID())
 				return (uint8)pChaosRespawn->sIndex;
-			else if (pChaosRespawn->sChaosID == GetProtoID() && pChaosRespawn->sRank == 1 && pChaosRespawn->sZoneID && GetZoneID())
-				return (uint8)pChaosRespawn->sIndex;
 		}
 	}
+
 	return 0;
 }
 
@@ -152,27 +151,37 @@ void CNpc::ChaosStoneDeath(CUser *pUser)
 				|| !pChaosInfo->ChaosStoneON
 				|| pChaosInfo->sZoneID != GetZoneID()
 				|| GetProtoID() != pChaosInfo->sChaosID)
-			{
-				printf("Chaos Stone Info Error Death (1)\n");
 				continue;
-			}
 
 			pChaosInfo->sRank++;
 			pChaosInfo->isChaosStoneKilled = true;
 			uint8 Respawn = ChaosStoneSelectStage(pChaosInfo->sRank);
 
 			_CHAOS_STONE_RESPAWN* pChaosRespawn = g_pMain->m_ChaosStoneRespawnCoordinateArray.GetData(Respawn);
-			if (pChaosRespawn == nullptr)
+			if (pChaosRespawn != nullptr)
 			{
-				printf("Chaos Stone ID (%d) Error Death\n",pChaosInfo->sChaosID);
-				continue;
+				pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
+				pChaosInfo->sRank = pChaosRespawn->sRank;
+				ChaosIndex = pChaosInfo->sChaosIndex;
 			}
-				
-			pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
-			pChaosInfo->sRank = pChaosRespawn->sRank;
+			else
+			{
+				uint8 Respawnisnull = ChaosStoneSelectStage(1);
+				_CHAOS_STONE_RESPAWN* pChaosRespawn2 = g_pMain->m_ChaosStoneRespawnCoordinateArray.GetData(Respawnisnull);
+				if (pChaosRespawn2 != nullptr)
+				{
+					pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
+					pChaosInfo->sRank = pChaosRespawn->sRank;
+					ChaosIndex = pChaosInfo->sChaosIndex;
+				}
+				else
+				{
+					pChaosInfo->sSpawnTime = 30;
+					pChaosInfo->sRank = 1;
+					ChaosIndex = pChaosInfo->sChaosIndex;
+				}
+			}
 			pChaosInfo->isOnResTimer = true;
-			ChaosIndex = pChaosInfo->sChaosIndex;
-			
 		}
 		ChaosStoneDeathRespawnMonster(ChaosIndex);
 	}
@@ -243,12 +252,12 @@ void CNpc::ChaosStoneBossKilledBy()
 			{
 				pChaosInfo->sBoosKilledCount--;
 				pChaosInfo->sBoosID[b] = 0;
+
+				if (pChaosInfo->sBoosKilledCount <= 0)
+					pChaosInfo->isTotalKilledMonster = true;
 				break;
 			}
 		}
-
-		if (pChaosInfo->sBoosKilledCount <= 0)
-			pChaosInfo->isTotalKilledMonster = true;
 	}
 }
 
