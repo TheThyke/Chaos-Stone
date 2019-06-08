@@ -162,7 +162,6 @@ void CNpc::ChaosStoneDeath(CUser *pUser)
 			{
 				pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
 				pChaosInfo->sRank = pChaosRespawn->sRank;
-				ChaosIndex = pChaosInfo->sChaosIndex;
 			}
 			else
 			{
@@ -170,20 +169,19 @@ void CNpc::ChaosStoneDeath(CUser *pUser)
 				_CHAOS_STONE_RESPAWN* pChaosRespawn2 = g_pMain->m_ChaosStoneRespawnCoordinateArray.GetData(Respawnisnull);
 				if (pChaosRespawn2 != nullptr)
 				{
-					pChaosInfo->sSpawnTime = pChaosRespawn->sSpawnTime;
-					pChaosInfo->sRank = pChaosRespawn->sRank;
-					ChaosIndex = pChaosInfo->sChaosIndex;
+					pChaosInfo->sSpawnTime = pChaosRespawn2->sSpawnTime;
+					pChaosInfo->sRank = pChaosRespawn2->sRank;
 				}
 				else
 				{
 					pChaosInfo->sSpawnTime = 30;
 					pChaosInfo->sRank = 1;
-					ChaosIndex = pChaosInfo->sChaosIndex;
 				}
 			}
 			pChaosInfo->isTotalKilledMonster = false;
 			pChaosInfo->sBoosKilledCount = 0;
 			pChaosInfo->isOnResTimer = true;
+			ChaosIndex = pChaosInfo->sChaosIndex;
 		}
 		ChaosStoneDeathRespawnMonster(ChaosIndex);
 	}
@@ -212,7 +210,7 @@ void CNpc::ChaosStoneDeathRespawnMonster(uint16 ChaosGetIndex)
 		pChaosInfo->sMonsterFamily++;
 		uint8 Family = g_pMain->ChaosStoneSummonSelectFamilyStage(pChaosInfo->sChaosID, pChaosInfo->sMonsterFamily, pChaosInfo->sZoneID);
 		
-		//if (Family)
+		if (Family)
 			pChaosInfo->sMonsterFamily = Family;
 	}
 }
