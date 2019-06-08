@@ -1,0 +1,72 @@
+USE [SERVER_01]
+GO
+
+/****** Object:  Table [dbo].[CHAOS_STONE_SUMMON_STAGE]    Script Date: 8.06.2019 22:27:52 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CHAOS_STONE_SUMMON_STAGE](
+	[nIndex] [tinyint] NOT NULL,
+	[ZoneID] [smallint] NOT NULL,
+	[nIndexFamily] [tinyint] NOT NULL,
+ CONSTRAINT [PK_CHAOS_STONE_SUMMON_STAGE] PRIMARY KEY CLUSTERED 
+(
+	[nIndex] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+USE [SERVER_01]
+GO
+
+/****** Object:  Table [dbo].[CHAOS_STONE_SUMMON_LIST]    Script Date: 8.06.2019 22:27:44 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CHAOS_STONE_SUMMON_LIST](
+	[nIndex] [int] NOT NULL,
+	[ZoneID] [smallint] NOT NULL,
+	[sSid] [smallint] NOT NULL,
+	[strName] [varchar](50) NULL,
+	[MonsterSpawnFamily] [tinyint] NOT NULL,
+ CONSTRAINT [PK_MONSTER_SUMMON_LIST_ZONE] PRIMARY KEY CLUSTERED 
+(
+	[nIndex] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [SERVER_01]
+GO
+
+/****** Object:  Table [dbo].[CHAOS_STONE_SPAWN]    Script Date: 8.06.2019 22:27:38 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CHAOS_STONE_SPAWN](
+	[sIndex] [tinyint] NOT NULL,
+	[sZoneID] [smallint] NOT NULL,
+	[sRank] [tinyint] NOT NULL,
+	[sChaosID] [smallint] NOT NULL,
+	[sCount] [smallint] NOT NULL,
+	[sSpawnX] [smallint] NOT NULL,
+	[sSpawnZ] [smallint] NOT NULL,
+	[sSpawnTime] [tinyint] NOT NULL,
+	[sDirection] [smallint] NOT NULL,
+	[sRadiusRange] [smallint] NOT NULL,
+ CONSTRAINT [PK_CHAOS_STONE_SPAWN] PRIMARY KEY CLUSTERED 
+(
+	[sIndex] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
