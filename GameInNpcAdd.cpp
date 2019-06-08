@@ -4,7 +4,7 @@ if (pNpc->GetZoneID() == ZONE_RONARK_LAND
 {
   if (NpcAddSignalling->m_ChaosStoneChaosID > 0)
   {
-    _CHAOS_STONE_INFO* pChaosInfo = g_pMain->m_ChaosStoneInfoArray.GetData(addNPCSignal->m_ChaosStoneChaosID);
+    _CHAOS_STONE_INFO* pChaosInfo = g_pMain->m_ChaosStoneInfoArray.GetData(NpcAddSignalling->m_ChaosStoneChaosID);
     if (pChaosInfo != nullptr)
     {
       if (pNpc->GetZoneID() == pChaosInfo->sZoneID && pChaosInfo->isChaosStoneKilled == true && pNpc->isMonster())
