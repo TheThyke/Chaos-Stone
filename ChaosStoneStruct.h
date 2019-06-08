@@ -35,22 +35,6 @@ struct _CHAOS_STONE_INFO
 	}
 };
 
-struct _CHAOS_STONE_BOOS_KILLED_INFO
-{
-	uint8 sNpcID[10];
-	uint8  sNpcKilled;
-
-	_CHAOS_STONE_BOOS_KILLED_INFO()
-	{
-		Initialize();
-	}
-	void Initialize()
-	{
-		memset(&sNpcID, 0, sizeof(sNpcID));
-		sNpcKilled = 0;
-	}
-};
-
 struct _CHAOS_STONE_SUMMON_LIST
 {
 	uint32	nIndex;
