@@ -7,8 +7,7 @@ using std::unique_ptr;
 bool CGameServerDlg::ChaosStoneLoad()
 {
 	uint8 ChaosStoneResCount = 0;
-	if (g_pMain->ChaosStoneRespawnOkey 
-		&& g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize() > 0)
+	if (g_pMain->ChaosStoneRespawnOkey && g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize() > 0)
 	{
 		for (int i = 1; i <= g_pMain->m_ChaosStoneRespawnCoordinateArray.GetSize(); i++)
 		{
@@ -50,17 +49,12 @@ void CGameServerDlg::ChaosStoneRespawnTimer()
 		for (int i = 1; i <= g_pMain->m_ChaosStoneInfoArray.GetSize(); i++)
 		{
 			_CHAOS_STONE_INFO* pChaosInfo = g_pMain->m_ChaosStoneInfoArray.GetData(i);
-			if (pChaosInfo == nullptr)
-			{
-				printf("Chaos Stone ID (%d) Error Timer\n", pChaosInfo->sChaosID);
-					continue;
-			}
-
-			if (!pChaosInfo->ChaosStoneON
+			if (pChaosInfo == nullptr
+				|| !pChaosInfo->ChaosStoneON
 				|| !pChaosInfo->isOnResTimer
 				|| !pChaosInfo->isChaosStoneKilled
 				|| !pChaosInfo->isTotalKilledMonster)
-				continue;
+					continue;
 
 			if (pChaosInfo->sSpawnTime > 0)
 				pChaosInfo->sSpawnTime--;
@@ -180,7 +174,6 @@ void CNpc::ChaosStoneDeath(CUser *pUser)
 			ChaosIndex = pChaosInfo->sChaosIndex;
 			
 		}
-		g_pMain->ChaosStoneBoosRespawnOkey = true;
 		ChaosStoneDeathRespawnMonster(ChaosIndex);
 	}
 }
@@ -203,10 +196,7 @@ void CNpc::ChaosStoneDeathRespawnMonster(uint16 ChaosGetIndex)
 				continue;
 
 			if (pSummonList->ZoneID == pChaosInfo->sZoneID && pSummonList->MonsterSpawnFamily == pChaosInfo->sMonsterFamily)
-			{
-				
 				g_pMain->SpawnEventNpc(pSummonList->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), 1, CHAOS_STONE_MONSTER_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_LIVE_TIME, GetNation(), GetID(), GetEventRoom(), 0, 1, 0, 0, uint8(ChaosGetIndex));
-			}
 		}
 		pChaosInfo->sMonsterFamily++;
 		uint8 Family = g_pMain->ChaosStoneSummonSelectFamilyStage(pChaosInfo->sChaosID, pChaosInfo->sMonsterFamily, pChaosInfo->sZoneID);
@@ -234,6 +224,33 @@ uint8 CGameServerDlg::ChaosStoneSummonSelectFamilyStage(uint16 ChaosGetID, uint8
 	return 1;
 }
 
+
+void CNpc::ChaosStoneBossKilledBy()
+{
+	for (int i = 1; i <= g_pMain->m_ChaosStoneInfoArray.GetSize(); i++)
+	{
+		_CHAOS_STONE_INFO* pChaosInfo = g_pMain->m_ChaosStoneInfoArray.GetData(i);
+		if (pChaosInfo == nullptr
+			|| pChaosInfo->sZoneID != GetZoneID()
+			|| !pChaosInfo->isChaosStoneKilled
+			|| !pChaosInfo->ChaosStoneON
+			|| pChaosInfo->isTotalKilledMonster)
+			continue;
+
+		for (int b = 0; b <= 9; b++)
+		{
+			if (pChaosInfo->sBoosID[b] == GetID())
+			{
+				pChaosInfo->sBoosKilledCount--;
+				pChaosInfo->sBoosID[b] = 0;
+				break;
+			}
+		}
+
+		if (pChaosInfo->sBoosKilledCount <= 0)
+			pChaosInfo->isTotalKilledMonster = true;
+	}
+}
 
 #pragma region CDBAgent::LoadChaosStoneFamilyStage()
 bool CDBAgent::LoadChaosStoneFamilyStage()
